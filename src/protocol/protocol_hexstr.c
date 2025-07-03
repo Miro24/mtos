@@ -3,6 +3,7 @@
 #ifdef BUILD_WITH_PROTOCOL_HEXSTR
 
 #include "protocol_hexstr.h"
+#include "stddef.h"
 #include "errno.h"
 
 #define END '\n'

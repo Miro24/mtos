@@ -120,4 +120,4 @@ void protocol_receive(struct protocol_t *proto,
 	proto->receive(proto, out, len, out_buff_len);
 }
 
-#endoif // BUILD_WITH_PROTOCOL
+#endif // BUILD_WITH_PROTOCOL
