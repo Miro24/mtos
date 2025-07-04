@@ -4,33 +4,35 @@
 
 #include "comm.h"
 #include "stddef.h"
-#include "errno.h"
+#include "err.h"
 
 void comm_init(struct comm_t *comm)
 {
+	err_clear();
+	
 	if (comm == NULL) {
-		errno = 1;
+		err_set(1);
 		return;
         }
 
 	comm->initialized = 0;
 	
 	if (comm->init == NULL) {
-		errno = 1;
+		err_set(1);
 		return;
         }
 	
 	comm->init(comm);
-	if(errno){
+	if(err_check()){
 		return;
 	}
 
 	if ((comm->send == NULL) && (comm->receive == NULL)) {
-		errno = 1;
+		err_set(1);
 		return;
         }
 
-	 if(!errno){
+	if(!err_check()){
 		 comm->initialized = 1;
 	 }
 }
@@ -46,24 +48,27 @@ void comm_deinit(struct comm_t *comm)
 	if (comm->deinit == NULL) {
 		return;
         }
-	
+
+	err_clear();
 	comm->deinit(comm);
 }
 
 void comm_send(struct comm_t *comm, uint8_t *in, uint16_t len)
 {
+	err_clear();
+	
 	if (comm == NULL) {
-		errno = 1;
+		err_set(1);
 		return;
         }
 
 	if (!comm->initialized){
-		errno = 1;
+		err_set(1);
 		return;		
 	}
 
 	if (comm->send == NULL){
-		errno = 1;
+		err_set(1);
 		return;
 	}
 
@@ -75,18 +80,20 @@ void comm_receive(struct comm_t *comm,
 		  uint16_t *len,
 		  uint16_t out_buff_len)
 {
+	err_clear();
+	
 	if (comm == NULL) {
-		errno = 1;
+		err_set(1);
 		return;
         }
 
 	if (!comm->initialized){
-		errno = 1;
+		err_set(1);
 		return;		
 	}
 
 	if (comm->receive == NULL){
-		errno = 1;
+		err_set(1);
 		return;
 	}
 
