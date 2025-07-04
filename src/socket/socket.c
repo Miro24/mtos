@@ -10,9 +10,6 @@
 #include "err.h"
 #include "logging.h"
 
-#define SERVER_PORT 5000
-#define SERVER_IP "192.168.178.101"
-
 
 static void sk_send(struct comm_t *comm,  uint8_t *in,  uint16_t len);
 static void init(struct comm_t *comm);
@@ -54,9 +51,9 @@ void init(struct comm_t *comm)
 	// setup server address struct
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(SERVER_PORT);	
+	server_addr.sin_port = htons(sock->port);	
 
-	if (inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr) <= 0){
+	if (inet_pton(AF_INET, sock->ip, &server_addr.sin_addr) <= 0){
 		err_set_mess("Invalid address/ Address not supported");
 		goto end;
 	}

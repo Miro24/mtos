@@ -6,6 +6,8 @@
 struct socket_t{
 	struct comm_t comm;
 	int socket;
+	uint16_t port;
+	const char *ip;
 };
 
 void socket_init_instance(struct socket_t *socket);
